@@ -25,7 +25,7 @@ using namespace std;
 
 int main()
 {
-    Nyx::set_log_file("log/test.log");
+    Nyx::set_log_file("log/.log");
     Nyx::wipe_log();
 
     Nyx::record_log_time("Program started: ");
