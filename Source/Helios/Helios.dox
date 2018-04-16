@@ -1,0 +1,8 @@
+/**
+ * @defgroup Helios The Helios library classes and functions. 
+ * 
+ * Helios is the "back end" of Nyx & Helios. It provides tools to handle 3D 
+ * rendering, loading and creation of 3D meshes, shader compilation and related
+ * 3D rendering tools.
+ * 
+*/

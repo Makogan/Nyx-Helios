@@ -16,6 +16,7 @@
 #include "Nyx-Window.hpp"
 
 using namespace std;
+using namespace Log;
 // ────────────────────────────────────────────────────────────────────────────────
 
 //
@@ -30,7 +31,9 @@ void static empty_func(){}
 void error_callback(int error, const char* description)
 {
     cerr << "Error: " << description << endl;
-    Nyx::record_log("Error: " + string(description));
+    record_log(string(80,'-'));
+    record_log("Error: " + string(description));
+    record_log(string(80,'-'));
 }
 
 //Default key callback
@@ -77,29 +80,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 //
 namespace Nyx{
     
-void Nyx_Window::init_glfw()
-{
-    //Initialize GLFW and check for errors
-	if (!glfwInit())
-	{
-        //If errors occurred record log information and print error message
-		cerr<< "Failed to initialize GLFW.\nTerminating program." << endl;
-        record_log("GLFW could not be initialized.\n Program was terminated");
-        record_log_time("Program ended: ");
-        //Terminate program
-		exit(EXIT_FAILURE);
-	}
-
-    //Record version information onto the log
-    record_log("\tGLFW intialized \t\t [✓]");
-    int major, minor, rev;
-    glfwGetVersion(&major,&minor, &rev);
-
-    string version_num = to_string(major)+"."+to_string(minor)+"."+to_string(rev);
-    record_log("\t\tGLFW Version: " + version_num);
-}
-
-void Nyx_Window::init_glew()
+bool Nyx_Window::init_glew()
 {
     // Initialize GLEW for cross platform compilation
     glewExperimental = GL_TRUE;
@@ -109,10 +90,13 @@ void Nyx_Window::init_glew()
     {
         //If errors occurred record log information and print error message
         cerr<< "Failed to initialize GLEW.\nTerminating program." << endl;
-        record_log("GLEW was not properly initialized.\n Program was terminated");
-        record_log_time("Program ended: ");
-        //Terminate program
-		exit(EXIT_FAILURE);
+        record_log("\tGLEW initialized \t\t[x]");
+
+        if(NYX_TOLERANCE == NYX_TOLERANCE_LOW)
+            //Terminate program
+		    exit(EXIT_FAILURE);
+        
+        return false;
     }
     //Discard the errors set by GLEW
     glGetError();
@@ -120,16 +104,35 @@ void Nyx_Window::init_glew()
     //Record version information onto the log
     record_log("\tGLEW initialized \t\t [✓]");
     record_log("\t\tGLEW version: " + string((char *)glewGetString(GLEW_VERSION)));
+
+    record_log("\n\tOpenGL Version and driver: " + 
+        string((char *)glGetString(GL_VERSION)));
+    return true;
 }
 // ────────────────────────────────────────────────────────────────────────────────
 
 //
 // ─── CONSTRUCTORS ───────────────────────────────────────────────────────────────
 //
-Nyx_Window::Nyx_Window() : Nyx_Window("", empty_func, NULL, GL_TRUE){}
+Nyx_Window::Nyx_Window() : Nyx_Window("Nyx Window", empty_func, NULL, GL_TRUE){}
 
 Nyx_Window::Nyx_Window(string name, void(*w_func)(), GLFWwindow* s_window, bool visible)
 {
+    // Store the fact we attempted to creat a Nyx window
+    record_log("\n"+string(80,'-'));
+    record_log("Initializing window: " + name);
+    //Error check to ensure Nyx has been initialized before creating a window
+    if(!NYX_STARTED)
+    {
+        cerr << "Nyx was not initialized!" << endl;
+        record_log("The Nyx Library Has not been initialized");
+        record_log(string(80,'-'));
+
+        if(NYX_TOLERANCE==NYX_TOLERANCE_LOW)
+            exit(EXIT_FAILURE);
+
+        return;
+    }
     //Set the window hints (its properties)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);//OpenGL major version
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);//OpenGL minor version
@@ -159,11 +162,13 @@ Nyx_Window::Nyx_Window(string name, void(*w_func)(), GLFWwindow* s_window, bool 
 
     //Set this windows render function
     window_function = w_func;
+    window_name = name;
 
     Nyx_Window::init_glew();
 
     set_callback(error_callback);
     set_callback(key_callback);
+    record_log(string(80,'-'));
 }
 // ────────────────────────────────────────────────────────────────────────────────
 
@@ -186,21 +191,22 @@ void Nyx_Window::start_loop()
     }
 }
 
+//Set the error callback
 void Nyx_Window::set_callback(void(*callback_f)(int, const char*))
 {
     glfwSetErrorCallback(callback_f);
 }
-
+//Set the cursor position callback
 void Nyx_Window::set_callback(void (*callback_f)(GLFWwindow*, double, double))
-{
+{  
     glfwSetCursorPosCallback(window, callback_f);
 }
-
+//set the mouse button callback
 void Nyx_Window::set_callback(void (*callback_f)(GLFWwindow*, int, int, int))
 {
     glfwSetMouseButtonCallback(window, callback_f);
 }
- 
+//set the key callback
 void Nyx_Window::set_callback(void (*callback_f)(GLFWwindow*, int, int, int, int))
 {
     glfwSetKeyCallback(window, callback_f);

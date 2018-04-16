@@ -12,8 +12,7 @@
 // ─── INCLUDES AND MACROS ────────────────────────────────────────────────────────
 //
 #include "Nyx.hpp"
-
-using namespace std;
+#include "Helios.hpp"
 // ────────────────────────────────────────────────────────────────────────────────
 
 
@@ -25,21 +24,11 @@ using namespace std;
 
 int main()
 {
-    Nyx::set_log_file("log/.log");
-    Nyx::wipe_log();
-
-    Nyx::record_log_time("Program started: ");
-    Nyx::record_log("Nyx version: " + string(NYX_VERSION));
-    Nyx::record_log("Library Linking and initialization checks:\n");
-
-    Nyx::Nyx_Window::init_glfw();
+    Nyx::NyxInit(NYX_TOLERANCE_LOW);
     Nyx::Nyx_Window w = Nyx::Nyx_Window();
 
-    Nyx::record_log("\nOpenGL Version and driver: " + 
-        string((char *)glGetString(GL_VERSION)));
-
+    Helios::Shader s = Helios::Shader("testvertex.glsl");
+    
     w.start_loop();
-
-    Nyx::record_log_time("Program ended: ");
 }
 // ────────────────────────────────────────────────────────────────────────────────

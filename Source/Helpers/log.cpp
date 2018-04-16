@@ -15,7 +15,7 @@
 //
 #include "log.hpp"
 
-namespace Nyx{
-std::string LOG_FILE;
-}
+bool first_call = true;
+std::string LOG_FILE = "log/.log";
+
 // ────────────────────────────────────────────────────────────────────────────────

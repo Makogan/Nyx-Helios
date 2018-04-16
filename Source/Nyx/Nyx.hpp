@@ -28,13 +28,15 @@
 #include <sys/stat.h>
 #include <string>
 
-//Time handling liibraries
+//Time handling libraries
 #include <chrono>
 #include <ctime>
 
+//External helpers
+#include "log.hpp"
+
 //Nyx headers
 #include "Nyx-Window.hpp"
-#include "log.hpp"
 // ────────────────────────────────────────────────────────────────────────────────
 
 //
@@ -43,6 +45,11 @@
 // ────────────────────────────────────────────────────────────────────────────────────────
 //
 #define NYX_VERSION "0.0.1"
+
+enum {NYX_TOLERANCE_HIGH, NYX_TOLERANCE_LOW};
+
+extern int NYX_TOLERANCE;
+extern bool NYX_STARTED;
 // ────────────────────────────────────────────────────────────────────────────────
 
 //
@@ -50,6 +57,11 @@
 //   :::::: N Y X   F U N C T I O N S : :  :   :    :     :        :          :
 // ────────────────────────────────────────────────────────────────────────────
 //
+namespace Nyx
+{
 
+bool NyxInit(int level);
+
+}
 // ────────────────────────────────────────────────────────────────────────────────
 

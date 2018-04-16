@@ -39,8 +39,8 @@
  * @def LOG_FILE
  * @brief Name of file use to record information (the log file)
 */
-namespace Nyx{
 extern std::string LOG_FILE;
+extern bool first_call;
 // ────────────────────────────────────────────────────────────────────────────────
 
 //
@@ -48,7 +48,7 @@ extern std::string LOG_FILE;
 //   :::::: L O G     F U N C T I O N S : :  :   :    :     :        :          :
 // ──────────────────────────────────────────────────────────────────────────────
 //
-
+namespace Log{
 /**
  * @brief Set the log file string
  * 
@@ -80,6 +80,11 @@ void inline wipe_log()
 */
 void inline record_log(std::string message)
 {
+    if(first_call)
+        wipe_log();
+
+    first_call = false;
+
     std::string LOG_DIR = LOG_FILE.substr(0,LOG_FILE.find_last_of('/'));
     mkdir(LOG_DIR.c_str(), S_IRUSR | S_IWUSR | S_IXUSR);
 
@@ -97,6 +102,11 @@ void inline record_log(std::string message)
 */
 void inline record_log_time(std::string message)
 {
+    if(first_call)
+        wipe_log();
+        
+    first_call = false;
+
     auto execution_start = std::chrono::system_clock::now();
     std::time_t start_time = std::chrono::system_clock::to_time_t(execution_start);
     

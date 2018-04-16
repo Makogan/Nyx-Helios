@@ -1,0 +1,16 @@
+/*! \mainpage Sister Libraries to quickstart backend OpenGL projects
+ *
+ * \section intro_sec Introduction
+ *
+ * Nyx and Helios are two libraries I work on to provide some common needed tools
+ * to start an OpenGL project. Their purpose is to facilitate using GLFW and OpenGL
+ * While allowing enough customization to implement general programs.
+ * Because of these the libraries don't do much for you, they simply give a 
+ * starting framework but don't provide any complex tools on their own. This is to 
+ * allow for more user control.
+ *
+ * \section install_sec Installation
+ *
+ * There is a CMake lists file provided with the libraries. Create a new directory 
+ * called build and run cmake to compile for your current system
+ */
