@@ -1,5 +1,5 @@
 
-# ![GitHub Logo](/Documentation/RavenLogo.png)  Nyx-Helios 
+# ![GitHub Logo](/Documentation/SunMoon.png)  Nyx-Helios 
 
 
 Nyx and Helios are two small libraries I developped to abstract OpenGL for a quick start in future projects. 
