@@ -32,7 +32,7 @@ namespace Nyx{
  * 
 */
 class Nyx_Window
-{
+{       
 //
 // ─── CLASS MEMBERS ──────────────────────────────────────────────────────────────
 //
@@ -71,11 +71,6 @@ class Nyx_Window
 //
 // ─── CLASS MEHTODS ──────────────────────────────────────────────────────────────
 //
-        /**
-         * @brief Initialize the GLEW library
-         * 
-        */
-        bool init_glew();   
 
         /**
          * @brief Start the infinte render loop of the current Nyx_Window. This method 
