@@ -48,8 +48,16 @@
 
 enum {NYX_TOLERANCE_HIGH, NYX_TOLERANCE_LOW};
 
+namespace Nyx{
 extern int NYX_TOLERANCE;
 extern bool NYX_STARTED;
+
+#ifdef NYX_LIB
+extern int OpenGL_Major;
+extern int OpenGL_Minor;
+extern std::string OpenGL_Vendor;
+extern std::string OpenGL_Renderer;
+#endif
 // ────────────────────────────────────────────────────────────────────────────────
 
 //
@@ -57,11 +65,8 @@ extern bool NYX_STARTED;
 //   :::::: N Y X   F U N C T I O N S : :  :   :    :     :        :          :
 // ────────────────────────────────────────────────────────────────────────────
 //
-namespace Nyx
-{
-
+bool init_glew();
 bool NyxInit(int level);
-
-}
+}//close namespace
 // ────────────────────────────────────────────────────────────────────────────────
 

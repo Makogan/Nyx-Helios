@@ -27,7 +27,7 @@ int main()
     Nyx::NyxInit(NYX_TOLERANCE_LOW);
     Nyx::Nyx_Window w = Nyx::Nyx_Window();
 
-    Helios::Shader s = Helios::Shader("testvertex.glsl");
+//    Helios::Shader s = Helios::Shader("testvertex.glsl");
     
     w.start_loop();
 }
