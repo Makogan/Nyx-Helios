@@ -1,35 +1,37 @@
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-/**
- * @brief Header declaration for the Helios Library
- * 
- * @file Helios.hpp
+/**                                                                                     *
+ * @brief Implementation of major functions of the Helios library
+ *
+ * @file Helios.cpp
  * @author Camilo Talero
- * @date 2018-04-15
-*/
+ * @date 2018-04-19
+ *                                                                                      */
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 //========================================================================================
 /*                                                                                      *
- *                                     Include Files                                    *
+ *                                     Include files                                    *
  *                                                                                      */
 //========================================================================================
 
-#pragma once
+#include "Helios.hpp"
+#include "System-Libraries.hpp"
 
-//Helios headers
-#include "Helios-Wrappers.hpp"
-namespace Helios{
+using namespace std;
+namespace Helios {
 //########################################################################################
 
 //========================================================================================
 /*                                                                                      *
- *                                 Function Declarations                                *
+ *                            Helios Functions Implementations                          *
  *                                                                                      */
 //========================================================================================
 
-//──── Initialization ────────────────────────────────────────────────────────────────────
-
-bool HeliosInit();
+bool HeliosInit()
+{
+    glEnable(GL_DEBUG_OUTPUT);
+    glDebugMessageCallback((GLDEBUGPROC)Helios::errorCallback, NULL);
+}
 
 }//Helios namespace closing bracket
 //########################################################################################

@@ -26,6 +26,7 @@ include_directories("${PROJECT_SOURCE_DIR}/Nyx")
 include_directories("${PROJECT_SOURCE_DIR}/Nyx/Nyx-Window")
 include_directories("${PROJECT_SOURCE_DIR}/Helios")
 include_directories("${PROJECT_SOURCE_DIR}/Helios/OpenGL-Wrappers")
+include_directories("${PROJECT_SOURCE_DIR}/Helios/Debuging")
 
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
@@ -34,3 +35,5 @@ find_package(Freetype REQUIRED)
 
 include_directories(${FREETYPE_INCLUDE_DIRS})
 target_link_libraries(Nyx glfw GL GLEW freetype pthread)
+
+file(COPY ${PROJECT_SOURCE_DIR}/Helios/Helios-Shaders DESTINATION ${CMAKE_BINARY_DIR})

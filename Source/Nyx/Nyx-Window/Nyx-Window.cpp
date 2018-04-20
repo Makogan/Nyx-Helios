@@ -8,24 +8,26 @@
 */
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-//
-// ────────────────────────────────────────────────────────────────── I ──────────
-//   :::::: I N C L U D E   F I L E S : :  :   :    :     :        :          :
-// ────────────────────────────────────────────────────────────────────────────
-//
+//========================================================================================
+/*                                                                                      *
+ *                                     Include Files                                    *
+ *                                                                                      */
+//========================================================================================
+
 #include "Nyx-Window.hpp"
-#define NYX_LIB
+#include ".NyxHidden.hpp"
 
 using namespace std;
 using namespace Log;
 using namespace Nyx;
-// ────────────────────────────────────────────────────────────────────────────────
+//########################################################################################
 
-//
-// ────────────────────────────────────────────────────────────── I ──────────
-//   :::::: N O N   E X P O S E D : :  :   :    :     :        :          :
-// ────────────────────────────────────────────────────────────────────────
-//
+//========================================================================================
+/*                                                                                      *
+ *                                 Non-Exposed Functions                                *
+ *                                                                                      */
+//========================================================================================
+
 //Empty function, used as a place holder to enable default construction of Nyx_Windows
 void static empty_func(){}
 
@@ -56,7 +58,7 @@ void static key_callback(GLFWwindow* window, int key, int scancode, int action, 
     		glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 0,
     			mode->width, mode->height, mode->refreshRate);
 
-    	//If a monitor is attached, detach it and set the dimesnions to that of
+    	//If a monitor is attached, detach it and set the dimensions to that of
     	//The primary's monitor resolution. This makes the window windowed
     	else
     		glfwSetWindowMonitor(window, NULL, 0, 0,
@@ -69,21 +71,25 @@ void static key_callback(GLFWwindow* window, int key, int scancode, int action, 
     else if(key == GLFW_KEY_F12 && action == GLFW_PRESS)
     	cout << glfwGetVersionString() << endl;
 }
-// ────────────────────────────────────────────────────────────────────────────────
+//########################################################################################
 
-//
-// ──────────────────────────────────────────────────────────────── I ──────────
-//   :::::: W I N D O W   C L A S S : :  :   :    :     :        :          :
-// ──────────────────────────────────────────────────────────────────────────
-//
+//========================================================================================
+/*                                                                                      *
+ *                                   Nyx Window Class                                   *
+ *                                                                                      */
+//========================================================================================
+
 namespace Nyx{
-//
-// ─── CONSTRUCTORS ───────────────────────────────────────────────────────────────
-//
+
+//──── Constructors ──────────────────────────────────────────────────────────────────────
+
 Nyx_Window::Nyx_Window() : Nyx_Window("Nyx Window", empty_func, NULL, GL_TRUE){}
 
 Nyx_Window::Nyx_Window(string name, void(*w_func)(), GLFWwindow* s_window, bool visible)
 {
+    if(w_func==NULL)
+        w_func = empty_func;
+        
     // Store the fact we attempted to creat a Nyx window
     record_log("\n"+string(80,'-'));
     record_log("Initializing window: " + name);
@@ -101,15 +107,15 @@ Nyx_Window::Nyx_Window(string name, void(*w_func)(), GLFWwindow* s_window, bool 
     }
     
     //Set the window hints (its properties)
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);//OpenGL major version
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);//OpenGL minor version
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, OpenGL_Major);//OpenGL major version
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, OpenGL_Minor);//OpenGL minor version
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);//Set Forward compatibility
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);//Use GLFW defaults
 	glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);//Make the window decorated
 	if(visible)
 	    glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE);//Make the window visible
 
-    //Get the primiray monitor of the current system
+    //Get the primary monitor of the current system
 	const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 	//Create a GLFW window with the main monitors width, reduced height, 
 	//name, on windowed mode, not sharing resources with any context
@@ -137,11 +143,9 @@ Nyx_Window::Nyx_Window(string name, void(*w_func)(), GLFWwindow* s_window, bool 
     set_callback(key_callback);
     record_log(string(80,'-'));
 }
-// ────────────────────────────────────────────────────────────────────────────────
 
-//
-// ─── MEMBER FUNCTIONS ───────────────────────────────────────────────────────────
-//
+
+//──── Member Functions ──────────────────────────────────────────────────────────────────
 
 void Nyx_Window::start_loop()
 {
@@ -181,4 +185,4 @@ void Nyx_Window::set_callback(void (*callback_f)(GLFWwindow*, int, int, int, int
 }
 
 }// Close Nyx namespace
-// ────────────────────────────────────────────────────────────────────────────────
+//########################################################################################

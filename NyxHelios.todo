@@ -1,0 +1,10 @@
+Nyx:
+    Implement:
+        ☐ Implement the resize callback function
+    Research:
+        ☐ Consider using QT to create a basic profiler
+Helios:
+    Implement:
+        ☐ Basic shaders
+    Rsearch:
+        ☐ More ways to debug

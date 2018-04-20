@@ -1,18 +1,22 @@
-/**
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/**                                                                                     *
  * @brief Header defining all system libraries needed by at least one Helios file
- * 
- * This header structure facilitates ;ibnrary inclusion through multiple files
- * 
+ *
+ * This header structure facilitates Library inclusion through multiple files
+ *
  * @file System-Libraries.hpp
  * @author Camilo Talero
  * @date 2018-04-15
-*/
+ *                                                                                      */
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-//
-// ────────────────────────────────────────────────────────────────────────── I ──────────
-//   :::::: I N C L U D E   L I B R A R I E S : :  :   :    :     :        :          :
-// ────────────────────────────────────────────────────────────────────────────────────
-//
+
+//========================================================================================
+/*                                                                                      *
+ *                                   Include Libraries                                  *
+ *                                                                                      */
+//========================================================================================
+
 #pragma once
 
 //OpenGL Libraries
@@ -21,6 +25,9 @@
 #endif
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+
+//Data structures
+#include <vector>
 
 //IO libraries
 #include <iostream>
@@ -37,4 +44,4 @@
 
 //External helpers
 #include "log.hpp"
-// ────────────────────────────────────────────────────────────────────────────────
+//########################################################################################

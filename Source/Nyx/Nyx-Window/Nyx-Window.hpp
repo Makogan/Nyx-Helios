@@ -1,28 +1,33 @@
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-/**
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/**                                                                                     *
  * @brief Declaration of wrapper classes and methods to abstract GLFW Nyx_Windows
  * 
  * @file Nyx-Window.hpp
  * @author Camilo Talero
  * @date 2018-04-14
-*/
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *                                                                                      */
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-//
-// ────────────────────────────────────────────────────────────────── I ──────────
-//   :::::: I N C L U D E   F I L E S : :  :   :    :     :        :          :
-// ────────────────────────────────────────────────────────────────────────────
-//
+
+//========================================================================================
+/*                                                                                      *
+ * Include Files                                                                        *
+ *                                                                                      */
+//========================================================================================
+
+
 #pragma once
 
 #include "Nyx/System-Libraries.hpp"
-// ────────────────────────────────────────────────────────────────────────────────
+//########################################################################################
 
-//
-// ──────────────────────────────────────────────────────────────── I ──────────
-//   :::::: W I N D O W   C L A S S : :  :   :    :     :        :          :
-// ──────────────────────────────────────────────────────────────────────────
-//
+//========================================================================================
+/*                                                                                      *
+ * Nyx Window Class                                                                     *
+ *                                                                                      */
+//========================================================================================
+
+
 namespace Nyx{
 
 /**
@@ -33,18 +38,15 @@ namespace Nyx{
 */
 class Nyx_Window
 {       
-//
-// ─── CLASS MEMBERS ──────────────────────────────────────────────────────────────
-//
+//──── Class Members ─────────────────────────────────────────────────────────────────────
+
     private:
         GLFWwindow* window;         //!< Pointer to the GLFW Nyx_Window we are wrapping
         void (*window_function)();  //!< Subroutine to be called during Nyx_Window loop
         std::string window_name;    //!< Name of the window (displayed at the top)
-// ────────────────────────────────────────────────────────────────────────────────
 
-//
-// ─── CONSTRUCTORS AND DESTRUCTORS ───────────────────────────────────────────────
-//
+//──── Constructors and Destructors ──────────────────────────────────────────────────────
+
     public:
         /**
          * @brief Construct a new Nyx_Window object.
@@ -66,21 +68,18 @@ class Nyx_Window
         */
         Nyx_Window(std::string name, void(*f)(), GLFWwindow* window, bool visible); 
         //~Nyx_Window();
-// ────────────────────────────────────────────────────────────────────────────────
 
-//
-// ─── CLASS MEHTODS ──────────────────────────────────────────────────────────────
-//
+//──── Class methods ─────────────────────────────────────────────────────────────────────
 
         /**
-         * @brief Start the infinte render loop of the current Nyx_Window. This method 
+         * @brief Start the infinite render loop of the current Nyx_Window. This method 
          * implicitly calls the function defined during construction on each frame
          * 
         */
         void start_loop();     
 
         /**
-         * @name Set Callback member functions
+         * @name Callback Setters
          * @brief Set a glfw callback function identified by signature
          * 
          * Each of these functions will call the appropriate glfw set callback function.
@@ -89,7 +88,7 @@ class Nyx_Window
          * 
          * @param callback_f the function pointer to be associated to a glfw callback
         */
-    ///@{
+        ///@{
         //* error callback */
         void set_callback(void (*callback_f)(int, const char*)); 
         //* cursor position callback */
@@ -98,7 +97,7 @@ class Nyx_Window
         void set_callback(void (*callback_f)(GLFWwindow*, int, int, int));
         //* key callback */
         void set_callback(void (*callback_f)(GLFWwindow*, int, int, int, int));
-    ///@}
+        ///@}
 };
-}
-// ────────────────────────────────────────────────────────────────────────────────
+}//Nyx namespace closing bracket
+//########################################################################################

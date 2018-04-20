@@ -2,7 +2,7 @@
 # ![GitHub Logo](/Documentation/SunMoon.png)  Nyx-Helios 
 
 
-Nyx and Helios are two small libraries I developped to abstract OpenGL for a quick start in future projects. 
+Nyx and Helios are two small libraries I developed to abstract OpenGL for a quick start in future projects. 
 Each library is meant to complement the other but be able to work independently of the other.
 
 ## Nyx

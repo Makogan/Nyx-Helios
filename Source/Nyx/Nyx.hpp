@@ -8,11 +8,11 @@
 */
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-//
-// ────────────────────────────────────────────────────────────────────────── I ──────────
-//   :::::: I N C L U D E   L I B R A R I E S : :  :   :    :     :        :          :
-// ────────────────────────────────────────────────────────────────────────────────────
-//
+//========================================================================================
+/*                                                                                      *
+ *                                   Include Libraries                                  *
+ *                                                                                      */
+//========================================================================================
 #pragma once
 
 //OpenGL Libraries
@@ -37,36 +37,58 @@
 
 //Nyx headers
 #include "Nyx-Window.hpp"
-// ────────────────────────────────────────────────────────────────────────────────
+//########################################################################################
 
-//
-// ────────────────────────────────────────────────────────────────────────────── I ──────────
-//   :::::: L I B R A R Y   I N F O R M A T I O N : :  :   :    :     :        :          :
-// ────────────────────────────────────────────────────────────────────────────────────────
-//
+//========================================================================================
+/*                                                                                      *
+ *                                  Library Information                                 *
+ *                                                                                      */
+//========================================================================================
+
+/**
+ * @brief Macro defining the current Nyx version 
+ * 
+*/
 #define NYX_VERSION "0.0.1"
-
-enum {NYX_TOLERANCE_HIGH, NYX_TOLERANCE_LOW};
+/**
+ * @brief Enumerators defining how much nyx tolerates errors
+ * 
+ * NYX_TOLERANCE_HIGH will allow errors to occur and continue execution
+ * NYX_TOLERANCE_LOW  will terminate the program upon encountering an error
+ * 
+*/
+enum NYX_TOLERANCE_LEVEL {NYX_TOLERANCE_HIGH, NYX_TOLERANCE_LOW};
 
 namespace Nyx{
-extern int NYX_TOLERANCE;
-extern bool NYX_STARTED;
+//########################################################################################
 
-#ifdef NYX_LIB
-extern int OpenGL_Major;
-extern int OpenGL_Minor;
-extern std::string OpenGL_Vendor;
-extern std::string OpenGL_Renderer;
-#endif
-// ────────────────────────────────────────────────────────────────────────────────
-
-//
-// ────────────────────────────────────────────────────────────────── I ──────────
-//   :::::: N Y X   F U N C T I O N S : :  :   :    :     :        :          :
-// ────────────────────────────────────────────────────────────────────────────
-//
+//========================================================================================
+/*                                                                                      *
+ *                                     Nyx Functions                                    *
+ *                                                                                      */
+//========================================================================================
+/**
+ * @brief Function used to initialize GLEW  
+ * 
+ * This is called mainly by NyxInit() and by the Nyx Window constructors. It initializes
+ * GLEW and checks for errors
+ * 
+ * @return true If GLEW was successfully initialize
+ * @return false If an error occurs
+*/
 bool init_glew();
+/**
+ * @brief Initializes the Nyx library. 
+ * 
+ * Should be once at the beginning of main, before any Nyx Window is created.
+ * 
+ * @param level The tolerance level for errors. NYX_TOLERANCE_LOW to terminate program 
+ *              when errors occur. 
+ *              NYX_TOLERANCE_HIGH to continue execution if an error happens
+ * @return true If Nyx was successfully initialized
+ * @return false If an error occurred
+*/
 bool NyxInit(int level);
 }//close namespace
-// ────────────────────────────────────────────────────────────────────────────────
+//########################################################################################
 
