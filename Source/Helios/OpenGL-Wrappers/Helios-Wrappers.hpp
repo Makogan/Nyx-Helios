@@ -13,11 +13,10 @@
  *                                     Include Files                                    *
  *                                                                                      */
 //========================================================================================
-
 #pragma once
 
 #include "Helios/System-Libraries.hpp"
-#include "Debuging.hpp"
+#include "Debugging.hpp"
 //########################################################################################
 
 //========================================================================================
@@ -72,6 +71,12 @@ class Shader
         */
         Shader(std::string file_path);
 
+        /**
+         * @brief Destroy the Shader object
+         *
+        */
+        ~Shader();
+
 //──── Getters and Setters ───────────────────────────────────────────────────────────────
 
         ///@{
@@ -79,9 +84,24 @@ class Shader
          * @brief Get the associated variable
          *
         */
-        GLuint getShaderID();
-        GLenum getType();
+        GLuint inline getShaderID(){return shaderID;}
+        GLenum inline getType(){return type;}
         ///@}
+
+//──── Other Functions ───────────────────────────────────────────────────────────────────
+
+        /**
+         * @brief Attach the shader to a program
+         *
+         * @param program The program we are attaching to's ID
+        */
+        void inline attachTo(GLuint program){glAttachShader(program, shaderID);}
+        /**
+         * @brief Detach The shader from a program
+         *
+         * @param program The program we are detaching from's ID
+        */
+        void inline detachFrom(GLuint program){glDetachShader(program, shaderID);}
 };
 
 /**
@@ -93,20 +113,7 @@ class Shading_Program
 //──── Private Members ───────────────────────────────────────────────────────────────────
 
     private:
-        GLuint programID;        //!< OpenGL generated identifier
-        Shader* vertex = NULL;  //!< Vertex shader
-        Shader* tessc = NULL;   //!< Tessellation control shader
-        Shader* tesse = NULL;   //!< Tessellation evaluation shader
-        Shader* geometry = NULL;//!< Geometry shader
-        Shader* fragment = NULL;//!< Fragment shader
-        Shader* compute = NULL; //!< Compute shader
-
-        /**
-         * @brief Compile and attach the shaders to the current program
-         * 
-        */
-        void compileShaders(std::string, std::string, std::string,
-            std::string, std::string, std::string);
+        GLuint programID; //!< OpenGL generated identifier
 
     public:
 
@@ -130,6 +137,24 @@ class Shading_Program
         */
         Shading_Program(std::string vShader, std::string tcShader, std::string teShader,
             std::string gShader, std::string fShader, std::string cShader);
+
+        /**
+         * @brief Destroy the Shading_Program object
+         * 
+        */
+        ~Shading_Program();
+
+//──── Setters and Getters ───────────────────────────────────────────────────────────────
+
+        GLuint inline getProgramID(){return programID;}
+
+//──── Other Functions ───────────────────────────────────────────────────────────────────
+
+        /**
+         * @brief use the current program
+         *
+        */
+        void inline use(){glUseProgram(programID);}
 };
 }//Close helios namespace
 //########################################################################################

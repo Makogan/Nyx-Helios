@@ -1,18 +1,22 @@
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 /**                                                                                     *
- * @brief A minimum fragment example
+ * @brief A simple fragment shader to render 3D objects
  * 
- * @file minimum-fragment.glsl
+ * @file Basic-Fragment.glsl
  * @author Camilo Talero
- * @date 2018-04-19
+ * @date 2018-04-24
  *                                                                                      */
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 #version 460
 
-out vec4 color;
+in vec3 v_pos;
+in vec3 v_norm;
+in vec2 v_uv;
+
+out vec4 fragment_color;
 
 void main()
 {
-    color = vec4(0,1,1,0);
+    fragment_color = vec4(v_norm,0);
 }

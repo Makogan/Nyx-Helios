@@ -71,6 +71,11 @@ void static key_callback(GLFWwindow* window, int key, int scancode, int action, 
     else if(key == GLFW_KEY_F12 && action == GLFW_PRESS)
     	cout << glfwGetVersionString() << endl;
 }
+
+void static framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+    glViewport(0,0, width, height);
+}
 //########################################################################################
 
 //========================================================================================
@@ -89,7 +94,7 @@ Nyx_Window::Nyx_Window(string name, void(*w_func)(), GLFWwindow* s_window, bool 
 {
     if(w_func==NULL)
         w_func = empty_func;
-        
+
     // Store the fact we attempted to creat a Nyx window
     record_log("\n"+string(80,'-'));
     record_log("Initializing window: " + name);
@@ -110,6 +115,7 @@ Nyx_Window::Nyx_Window(string name, void(*w_func)(), GLFWwindow* s_window, bool 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, OpenGL_Major);//OpenGL major version
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, OpenGL_Minor);//OpenGL minor version
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);//Set Forward compatibility
+    glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); //Set the window as resizable
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);//Use GLFW defaults
 	glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);//Make the window decorated
 	if(visible)
@@ -182,6 +188,11 @@ void Nyx_Window::set_callback(void (*callback_f)(GLFWwindow*, int, int, int))
 void Nyx_Window::set_callback(void (*callback_f)(GLFWwindow*, int, int, int, int))
 {
     glfwSetKeyCallback(window, callback_f);
+}
+
+void Nyx_Window::set_callback(void (*callback_f)(GLFWwindow*, int, int))
+{
+    glfwSetFramebufferSizeCallback(window, callback_f);
 }
 
 }// Close Nyx namespace

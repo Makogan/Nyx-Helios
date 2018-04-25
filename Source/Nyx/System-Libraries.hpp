@@ -29,6 +29,7 @@
 #include <iostream>
 #include <fstream>
 #include <sys/stat.h>
+#include <vector>
 #include <string>
 
 //Time handling libraries

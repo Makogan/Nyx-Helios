@@ -13,7 +13,7 @@
  *                                     Include Files                                    *
  *                                                                                      */
 //========================================================================================
-#include "Debuging.hpp"
+#include "Debugging.hpp"
 
 namespace Helios{
 //########################################################################################
@@ -113,10 +113,10 @@ void errorCallback(   GLenum source, GLenum type, GLuint id, GLenum severity,
                         GLsizei length, const GLchar* message, const void* userParam )
 {
     std::string wMessage = Log::wrap_text(std::string(message), 80);
-    std::cerr << "OpenGL Error occurred!\n" + wMessage << std::endl;
+    std::cerr << "OpenGL Event Notification:\n" + wMessage << std::endl;
     std::string error_message = std::string(80, '!') + "\n";
     
-    error_message += "OpenGL error occurred:\n";
+    error_message += "OpenGL Event Notification:\n";
     error_message += "Source: " + errSourceToString(source) + "\n";
     error_message += "Type: " + errTypeToString(type) + "\n";
     error_message += "ID: " + errEnumToString(id) + "\n";

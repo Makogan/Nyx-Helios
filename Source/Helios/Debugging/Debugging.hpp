@@ -2,7 +2,7 @@
 /**                                                                                     *
  * @brief A set of functions to generate OpenGL debugging messages
  *
- * @file Debuging.hpp
+ * @file Debugging.hpp
  * @author Camilo Talero
  * @date 2018-04-19
  *                                                                                      */

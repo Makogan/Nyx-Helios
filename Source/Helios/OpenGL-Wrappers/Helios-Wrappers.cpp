@@ -19,6 +19,9 @@
 #include "Helios/System-Libraries.hpp"
 
 using namespace std;
+
+enum {  HELIOS_VERTEX_S=0, HELIOS_TESSC_S, HELIOS_TESSE_S,
+        HELIOS_GEOMETRY_S, HELIOS_FRAGMENT_S, HELIOS_COMPUTE_S};
 //########################################################################################
 
 namespace Helios{
@@ -30,49 +33,36 @@ namespace Helios{
  *                                                                                      */
 //========================================================================================
 
-//Compile and attach the shaders to the GL program
-void Shading_Program::compileShaders(string vs, string tcs, string tes,
-    string gs, string fs, string cs)
-{
-     //TODO: this needs better error checking
-    if(vs == "" || fs == "")
-    {
-        cerr << "Both the vertex shader and the fragment shader need to be specified" << endl;
-        return;
-    }
-    //Initialize mandatory shaders
-    vertex = new Shader(vs);
-	fragment = new Shader(fs);
-
-    //Conditionally initialize optional shaders
-    tessc = tcs == ""? NULL: new Shader(tcs);
-    tesse = tes == ""? NULL: new Shader(tes);
-    geometry = gs == ""? NULL: new Shader(gs);
-    compute = cs == ""? NULL: new Shader(cs);
-
-	//Initialize and create the rendering program
-	programID = glCreateProgram();
-    //Attach mandatory shaders
-	glAttachShader(programID, vertex->getShaderID());
-    glAttachShader(programID, fragment->getShaderID());
-
-    //Attach optional shaders if available
-    if(tessc!=NULL)
-		glAttachShader(programID, tessc->getShaderID());
-	if(tesse!=NULL)
-		glAttachShader(programID, tesse->getShaderID());
-	if(geometry!=NULL)
-		glAttachShader(programID, geometry->getShaderID());
-    if(compute!=NULL)
-		glAttachShader(programID, compute->getShaderID());
-}
-
 //Each string is either null or a pointer to the path to the source shader file
 #define E_MESS "Not Specified"
 Shading_Program::Shading_Program(string vs, string tcs, string tes,
     string gs, string fs, string cs)
 {
-    compileShaders(vs,tcs,tes,gs,fs,cs);
+    //TODO: this needs better error checking
+    if(vs == "" || fs == "")
+    {
+        cerr << "Both the vertex shader and the fragment shader need to be specified\n";
+        exit(EXIT_FAILURE);
+    }
+    vector<Shader*> shaders = vector<Shader*>(6);
+    //Initialize mandatory shaders
+    shaders[HELIOS_VERTEX_S] = new Shader(vs);
+	shaders[HELIOS_FRAGMENT_S] = new Shader(fs);
+
+    //Conditionally initialize optional shaders
+    shaders[HELIOS_TESSC_S]= tcs == ""? NULL: new Shader(tcs);
+    shaders[HELIOS_TESSE_S] = tes == ""? NULL: new Shader(tes);
+    shaders[HELIOS_GEOMETRY_S] = gs == ""? NULL: new Shader(gs);
+    shaders[HELIOS_COMPUTE_S] = cs == ""? NULL: new Shader(cs);
+
+	//Initialize and create the rendering program
+	programID = glCreateProgram();
+    glObjectLabel(GL_PROGRAM, programID, 23,"Helios shading program");
+
+    //Attach shaders if available
+    for(int c_shader=0; c_shader < shaders.size(); c_shader++)
+        if(shaders[c_shader]!=NULL)
+            shaders[c_shader]->attachTo(programID);
 
     //Attempt to link the GLSL program
 	glLinkProgram(programID);
@@ -106,8 +96,22 @@ Shading_Program::Shading_Program(string vs, string tcs, string tes,
 
 		exit(EXIT_FAILURE);
 	}
+    //Delete the saders, they are no longer needed once we have the program
+    for(int c_shader=0; c_shader < shaders.size(); c_shader++)
+    {
+        if(shaders[c_shader]!=NULL)
+        {
+            shaders[c_shader]->detachFrom(programID);
+            shaders[c_shader]->~Shader();
+        }
+    }
 }
 #undef E_MESS
+
+Shading_Program::~Shading_Program()
+{
+    glDeleteProgram(programID);
+}
 //########################################################################################
 
 //========================================================================================
@@ -175,16 +179,10 @@ Shader::Shader(string file_path)
 	type = type;
 }
 
-//──── Getters and Setters ───────────────────────────────────────────────────────────────
-
-GLuint Shader::getShaderID()
+//Destructor
+Shader::~Shader()
 {
-    return shaderID;
-}
-
-GLenum Shader::getType()
-{
-    return type;
+    glDeleteShader(shaderID);
 }
 
 //──── Private Methods ───────────────────────────────────────────────────────────────────

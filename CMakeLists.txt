@@ -26,7 +26,7 @@ include_directories("${PROJECT_SOURCE_DIR}/Nyx")
 include_directories("${PROJECT_SOURCE_DIR}/Nyx/Nyx-Window")
 include_directories("${PROJECT_SOURCE_DIR}/Helios")
 include_directories("${PROJECT_SOURCE_DIR}/Helios/OpenGL-Wrappers")
-include_directories("${PROJECT_SOURCE_DIR}/Helios/Debuging")
+include_directories("${PROJECT_SOURCE_DIR}/Helios/Debugging")
 
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)

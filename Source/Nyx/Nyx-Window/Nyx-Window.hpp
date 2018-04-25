@@ -97,6 +97,8 @@ class Nyx_Window
         void set_callback(void (*callback_f)(GLFWwindow*, int, int, int));
         //* key callback */
         void set_callback(void (*callback_f)(GLFWwindow*, int, int, int, int));
+        //* window size callback */
+        void set_callback(void (*callback_f)(GLFWwindow*, int, int));
         ///@}
 };
 }//Nyx namespace closing bracket
