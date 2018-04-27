@@ -25,6 +25,47 @@
  *                                                                                      */
 //========================================================================================
 namespace Helios{
+
+//TODO: implement the rest of the Mesh class
+/**
+ * @brief Class to wrap a generic 3D mesh
+ * 
+*/
+class Mesh
+{
+
+//──── Private Members ───────────────────────────────────────────────────────────────────
+
+    private:
+
+        GLuint VAO;         //!< Vertex array object
+        GLuint buffers[4];  //!< VBO identifiers
+
+        std::vector<glm::vec3> vertices;    //!< Array of vertices of the mesh
+        std::vector<glm::vec3> normals;     //!< Array of normals of the mesh
+        std::vector<glm::vec2> uvs;         //!< Array of texture coordinates of the mesh
+        std::vector<uint> indices;          //!< Array of indices for per element indexing
+
+    public:
+
+//──── Constructors and Destructors ──────────────────────────────────────────────────────
+
+        /**
+         * @brief Construct a new Mesh object
+         *
+        */
+        Mesh();
+        /**
+         * @brief Destroy the Mesh object
+         *
+        */
+        ~Mesh();
+
+//──── GPU related methods ───────────────────────────────────────────────────────────────
+
+        void draw();
+};
+
 /**
  * @ingroup Helios
  *

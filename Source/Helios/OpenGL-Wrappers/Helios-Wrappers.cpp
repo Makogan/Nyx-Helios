@@ -19,19 +19,152 @@
 #include "Helios/System-Libraries.hpp"
 
 using namespace std;
+using namespace glm;
+//########################################################################################
 
-enum {  HELIOS_VERTEX_S=0, HELIOS_TESSC_S, HELIOS_TESSE_S,
-        HELIOS_GEOMETRY_S, HELIOS_FRAGMENT_S, HELIOS_COMPUTE_S};
+//========================================================================================
+/*                                                                                      *
+ *                                    Helping Methods                                   *
+ *                                                                                      */
+//========================================================================================
+
+/**
+ * @brief Set the data for a VBO
+ *
+ * @tparam T The type of the data with which to fill the buffer
+ * @param buffer The OpenGL ID of the buffer
+ * @param data Vector containing the data to fill the buffer with
+*/
+template <class T>
+void inline static set_data_buffer(GLuint buffer, vector<T> &data)
+{
+    glBindBuffer(GL_ARRAY_BUFFER, buffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(T)*data.size(), data.data(), GL_STATIC_DRAW);
+}
+
+/**
+ * @brief Set the indices for indexed rendering in a VBO
+ *
+ * @tparam T The type if the index data  (should be uint, left as general just in case)
+ * @param buffer The OpenGL ID of the buffer
+ * @param data Vector containing the data to fill the buffer with
+*/
+template <class T>
+void inline static set_indices_buffer(GLuint buffer, vector<T> &data)
+{
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(T)*data.size(), data.data(),
+        GL_STATIC_DRAW);
+}
+
+/**
+ * @brief Set the attribute locations for a shader
+ *
+ * Each of the arrays should have the same number of elements. Each parameter is a list
+ * of values to be passed top the corresponding parameter for
+ * https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glVertexAttribFormat.xhtml.
+ * Each index in one array represents one paremeter.
+ *
+ * @param locations Array of attribute locations
+ * @param element_size Number of elements (counted as 4 bytes per element) per vertex instance
+ * @param normalize Should the values be normalized
+ * @param element_distance Distance between consecutive elements in the array
+*/
+void inline static set_attribute_locations(vector<GLuint> &locations,
+    vector<GLint> &element_size, vector<GLboolean> &normalize,
+    vector<GLuint> &element_distance)
+{
+    if(locations.size()!=element_size.size() || locations.size()!=normalize.size() ||
+        locations.size()!=element_distance.size())
+    {
+        cerr << "Un-matching array sizes for set_attribute_locations()" << endl;
+        Log::record_log(std::string(80, '!') +
+            "\nUn-matching array sizes for set_attribute_locations()\n" +
+            std::string(80, '!'));
+    }
+    int buffer_index = 0;
+    for(uint i=0; i<locations.size(); i++)
+    {
+        glEnableVertexAttribArray(locations[i]);
+        glVertexAttribFormat(locations[i], element_size[i],
+            GL_FLOAT, normalize[i], element_distance[i]);
+        glVertexAttribBinding(locations[i], buffer_index++);
+    }
+}
 //########################################################################################
 
 namespace Helios{
 
-//TODO: add destructors for the following classes
+//========================================================================================
+/*                                                                                      *
+ *                                      Mesh Class                                      *
+ *                                                                                      */
+//========================================================================================
+
+//Enumerators used to index through the buffers[] array
+enum {MESH_VERTEX_BUFFER=0, MESH_NORMAL_BUFFER, MESH_UV_BUFFER, MESH_INDICES_BUFFER};
+
+//Default mesh constructor, for testing only
+Mesh::Mesh()
+{
+    //Create a triangle for illustration purposes
+    vertices = {glm::vec3(-1,-1,0), glm::vec3(1,-1,0), glm::vec3(0,1,0)};
+    normals = {glm::vec3(-1,-1,0), glm::vec3(1,-1,0), glm::vec3(0,1,0)};
+    uvs = {vec2(0,0), vec2(1,0), vec2 (0,1)};
+    indices = {0,1,2};
+
+    //Initialize VAO
+    glGenVertexArrays(1, &VAO);
+    glBindVertexArray(VAO);
+    glObjectLabel(GL_VERTEX_ARRAY, VAO, -1, "\"Generic mesh VAO\"");
+
+    //Initialize buffers and fill them with data
+    glGenBuffers(4, buffers);
+    set_data_buffer(buffers[MESH_VERTEX_BUFFER], vertices);
+    set_data_buffer(buffers[MESH_NORMAL_BUFFER], normals);
+    set_data_buffer(buffers[MESH_UV_BUFFER], uvs);
+    set_indices_buffer(buffers[MESH_INDICES_BUFFER], indices);
+
+    //Name the buffers
+    glObjectLabel(GL_BUFFER, buffers[MESH_VERTEX_BUFFER], -1,
+        "\"Generic mesh Vertex Buffer\"");
+    glObjectLabel(GL_BUFFER, buffers[MESH_NORMAL_BUFFER], -1,
+        "\"Generic mesh Normal Buffer\"");
+    glObjectLabel(GL_BUFFER, buffers[MESH_UV_BUFFER], -1,
+        "\"Generic mesh UV Buffer\"");
+    glObjectLabel(GL_BUFFER, buffers[MESH_VERTEX_BUFFER], -1,
+        "\"Generic mesh Vertex Buffer\"");
+
+    //Set attribute location information
+    vector<GLuint> locs = {0,1,2};  // attribute locations 0,1,2
+    vector<GLint> sizes = {3,3,2};  // element sizes of 3,3,2 bytes (vec3, vec3, vec2)
+    vector<GLboolean> normalize = {false, true, false}; //Should the element be normalized
+    vector<GLuint> distance = {0,0,0}; //Distance between elements of the buffer
+    set_attribute_locations(locs, sizes, normalize, distance);
+}
+// mesh destructor
+Mesh::~Mesh()
+{
+    glDeleteBuffers(4, buffers);
+}
+//Draw the mesh
+void Mesh::draw()
+{
+    GLintptr offsets[] = {0,0,0};
+    int strides[] = {sizeof(vec3),sizeof(vec3), sizeof(vec2)};
+    glBindVertexBuffers(0, 3, buffers, offsets, strides);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
+}
+//########################################################################################
+
 //========================================================================================
 /*                                                                                      *
  *                                 Shading_Program Class                                *
  *                                                                                      */
 //========================================================================================
+//Enumerators used to index through the shaders[] array
+enum {  HELIOS_VERTEX_S=0, HELIOS_TESSC_S, HELIOS_TESSE_S,
+        HELIOS_GEOMETRY_S, HELIOS_FRAGMENT_S, HELIOS_COMPUTE_S};
 
 //Each string is either null or a pointer to the path to the source shader file
 #define E_MESS "Not Specified"
@@ -57,7 +190,7 @@ Shading_Program::Shading_Program(string vs, string tcs, string tes,
 
 	//Initialize and create the rendering program
 	programID = glCreateProgram();
-    glObjectLabel(GL_PROGRAM, programID, 23,"Helios shading program");
+    glObjectLabel(GL_PROGRAM, programID, -1, "Helios shading program");
 
     //Attach shaders if available
     for(int c_shader=0; c_shader < shaders.size(); c_shader++)

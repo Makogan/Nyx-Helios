@@ -11,6 +11,21 @@
  *
  * \section install_sec Installation
  *
- * There is a CMake lists file provided with the libraries. Create a new directory 
+ * There is a CMake lists file provided with the libraries. Create a new directory
  * called build and run cmake to compile for your current system
+ *
+ * \section references_sec References
+ *
+ *  - OpenGL:
+ *      - https://www.khronos.org/registry/OpenGL-Refpages/
+ *      - https://www.khronos.org/opengl/wiki/
+ *      - http://www.glfw.org/docs/latest/
+ *      - https://open.gl/
+ *
+ *  - Perlin noise:
+ *      - http://eastfarthing.com/blog/2015-04-21-noise/
+ *
+ *  - Voxel Global Illumination:
+ *      - http://www.seas.upenn.edu/~pcozzi/OpenGLInsights/OpenGLInsights-SparseVoxelization.pdf
+ *      - https://github.com/Friduric/voxel-cone-tracing
  */

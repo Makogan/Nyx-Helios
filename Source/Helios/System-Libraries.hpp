@@ -41,6 +41,7 @@
 
 //Math Libraries
 #include <algorithm>
+#include <glm/glm.hpp>
 
 //External helpers
 #include "log.hpp"

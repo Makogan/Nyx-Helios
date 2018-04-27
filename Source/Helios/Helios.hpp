@@ -29,6 +29,13 @@ namespace Helios{
 
 //──── Initialization ────────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Initialize the Helios library, should be called before using any Helios class or
+ * function
+ *
+ * @return true Upon successful initialization
+ * @return false Upon encountering an error
+*/
 bool HeliosInit();
 
 }//Helios namespace closing bracket

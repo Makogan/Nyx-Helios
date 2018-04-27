@@ -114,8 +114,8 @@ void errorCallback(   GLenum source, GLenum type, GLuint id, GLenum severity,
 {
     std::string wMessage = Log::wrap_text(std::string(message), 80);
     std::cerr << "OpenGL Event Notification:\n" + wMessage << std::endl;
-    std::string error_message = std::string(80, '!') + "\n";
     
+    std::string error_message = std::string(80, '!') + "\n";
     error_message += "OpenGL Event Notification:\n";
     error_message += "Source: " + errSourceToString(source) + "\n";
     error_message += "Type: " + errTypeToString(type) + "\n";

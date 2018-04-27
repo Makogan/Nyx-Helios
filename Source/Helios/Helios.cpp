@@ -27,10 +27,16 @@ namespace Helios {
  *                                                                                      */
 //========================================================================================
 
+//Initialize helios
 bool HeliosInit()
 {
+    //Enable debugging messages
     glEnable(GL_DEBUG_OUTPUT);
     glDebugMessageCallback((GLDEBUGPROC)Helios::errorCallback, NULL);
+    /*glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE,
+        GL_DEBUG_SEVERITY_NOTIFICATION, 0, NULL, false);*/
+
+    return true;
 }
 
 }//Helios namespace closing bracket
