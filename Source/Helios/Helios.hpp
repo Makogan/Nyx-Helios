@@ -18,6 +18,7 @@
 
 //Helios headers
 #include "Helios-Wrappers.hpp"
+#include "Camera.hpp"
 namespace Helios{
 //########################################################################################
 

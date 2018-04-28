@@ -109,20 +109,25 @@ std::string shaderEnumToString(GLenum shader_type)
     }
 }
 
+//Error message generation
 void errorCallback(   GLenum source, GLenum type, GLuint id, GLenum severity,
                         GLsizei length, const GLchar* message, const void* userParam )
 {
     std::string wMessage = Log::wrap_text(std::string(message), 80);
     std::cerr << "OpenGL Event Notification:\n" + wMessage << std::endl;
-    
-    std::string error_message = std::string(80, '!') + "\n";
+
+    char frame = '!';
+    if(severity == GL_DEBUG_SEVERITY_NOTIFICATION)
+        frame = '-';
+
+    std::string error_message = std::string(80, frame) + "\n";
     error_message += "OpenGL Event Notification:\n";
     error_message += "Source: " + errSourceToString(source) + "\n";
     error_message += "Type: " + errTypeToString(type) + "\n";
     error_message += "ID: " + errEnumToString(id) + "\n";
     error_message += "Severity: " + errSeverityToString(severity) + "\n";
-    error_message += "Message:\n" + wMessage + "\n";
-    error_message += std::string(80, '!') + "\n";
+    error_message += "Message:\n" + wMessage;
+    error_message += std::string(80, frame);
 
     Log::record_log(error_message);
 }

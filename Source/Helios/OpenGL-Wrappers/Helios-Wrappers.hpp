@@ -56,6 +56,12 @@ class Mesh
         */
         Mesh();
         /**
+         * @brief Construct a new Mesh object
+         *
+         * @param string path to a wavefront (.obj) file
+        */
+        Mesh(std:: string file_path);
+        /**
          * @brief Destroy the Mesh object
          *
         */
@@ -163,18 +169,25 @@ class Shading_Program
         /**
          * @brief Construct a new Shading_Program object
          *
-         * @param vShader Pointer to the path of the source file of a vertex shader or
-         *        NULL
-         * @param tcShader Pointer to the path of the source file of a tessellation
-         *        control shader or NULL
-         * @param teShader Pointer to the path of the source file of a tessellation
-         *        evaluation shader or NULL
-         * @param gShader Pointer to the path of the source file of a geometry shader or
-         *        NULL
-         * @param fShader Pointer to the path of the source file of a fragment shader or
-         *        NULL
-         * @param cShader Pointer to the path of the source file of a compute shader or
-         *        NULL
+         * The default OpenGL label will be the filename of the vertex shader up until
+         * the first '-' character found. So for example a program linked from the
+         * shader source files "Basic-vertex.glsl" and "Basic-fragment.glsl" will be
+         * labeled "Basic". So it's recommended you name all associated shading source
+         * files through the pattern <Descriptive Name>-<shader type>.glsl
+         * e.g MyShaders-vertex.glsl.
+         *
+         * @param vShader Path of the source file of a vertex shader (mandatory)
+         *
+         * @param tcShader Path of the source file of a tessellation control shader or ""
+         *
+         * @param teShader Path of the source file of a tessellation evaluation shader or ""
+         *
+         * @param gShader Path of the source file of a geometry shader or ""
+         *
+         * @param Path of the source file of a fragment shader (mandatory)
+         *
+         * @param cShader Path of the source file of a compute shader or ""
+         *
         */
         Shading_Program(std::string vShader, std::string tcShader, std::string teShader,
             std::string gShader, std::string fShader, std::string cShader);
@@ -186,7 +199,11 @@ class Shading_Program
         ~Shading_Program();
 
 //──── Setters and Getters ───────────────────────────────────────────────────────────────
-
+        /**
+         * @brief Get the OpenGL ProgramID
+         *
+         * @return GLuint
+        */
         GLuint inline getProgramID(){return programID;}
 
 //──── Other Functions ───────────────────────────────────────────────────────────────────
@@ -196,6 +213,13 @@ class Shading_Program
          *
         */
         void inline use(){glUseProgram(programID);}
+
+        /**
+         * @brief Set the program's OpenGL label
+         * 
+         * @param name 
+        */
+        void set_program_name(std::string name);
 };
 }//Close helios namespace
 //########################################################################################

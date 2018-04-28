@@ -18,16 +18,17 @@ out vec3 v_pos;
 out vec3 v_norm;
 out vec2 v_uv;
 
-uniform mat4 model_view = mat4(1);  // model view matrix
-uniform mat4 proj = mat4(1);        // perspective projection matrix
+uniform mat4 model_m = mat4(1); // model matrix
+uniform mat4 view_m = mat4(1);  // view matrix
+uniform mat4 proj_m = mat4(1);  // perspective projection matrix
 
 void main()
 {
-    vec4 pos = model_view*vec4(position, 1.0);
-    gl_Position = proj*pos;
+    vec4 pos = view_m*model_m*vec4(position, 1.0);
+    gl_Position = proj_m*pos;
 
-    v_pos = vec3(pos);
-    v_norm = vec3(model_view*vec4(normal,1.0));
+    v_pos = vec3(model_m*pos);
+    v_norm = vec3(view_m*model_m*vec4(normal,1.0));
     v_uv = uv;
 
 }

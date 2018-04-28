@@ -32,6 +32,8 @@ bool HeliosInit()
 {
     //Enable debugging messages
     glEnable(GL_DEBUG_OUTPUT);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
     glDebugMessageCallback((GLDEBUGPROC)Helios::errorCallback, NULL);
     /*glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE,
         GL_DEBUG_SEVERITY_NOTIFICATION, 0, NULL, false);*/

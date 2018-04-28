@@ -19,6 +19,8 @@
 #pragma once
 
 #include "Nyx/System-Libraries.hpp"
+
+enum Nyx_Enum{NYX_KEY_CALLBACK, NYX_CURSOR_POS_CALLBACK, NYX_CURSOR_BUT_CALLBACK};
 //########################################################################################
 
 //========================================================================================
@@ -48,6 +50,7 @@ class Nyx_Window
 //──── Constructors and Destructors ──────────────────────────────────────────────────────
 
     public:
+        GLFWwindow* getWindowPtr(){return window;}
         /**
          * @brief Construct a new Nyx_Window object.
          * 

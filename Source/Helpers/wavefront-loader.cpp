@@ -1,14 +1,12 @@
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-/**
- *  @file       wavefront-loader.cpp
- *	@author 	Camilo Talero
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/**                                                                                     *
+ * @brief
  *
- *
- *	Version: 0.0.3
- *
- *	@brief Defines methods needed to load wavefront (.obj) meshes.
- */
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * @file wavefront-loader.cpp
+ * @author Camilo Talero
+ * @date 2018-04-26
+ *                                                                                      */
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 /*
@@ -43,7 +41,7 @@ void load_obj(string filename, vector<float> *vertices, vector<float> *normals,
     vector<float> *texture_coords)
 {
     //temporal vectors to store the information until properly organized
-    vector<float> vs, ns, ts; 
+    vector<float> vs, ns, ts;
 
     // Create a file stream object to read mesh info
     ifstream wfile;
@@ -55,8 +53,8 @@ void load_obj(string filename, vector<float> *vertices, vector<float> *normals,
         exit(1);   // call system to stop
     }
 
-    //read line by line 
-    //WARNING! if a non number sequence of characters is found 
+    //read line by line
+    //WARNING! if a non number sequence of characters is found
     //during string to float conversion this will crash
     //Be careful of comments and similar situations
     string line;
