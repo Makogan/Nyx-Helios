@@ -21,14 +21,18 @@ file(GLOB_RECURSE SOURCES "${PROJECT_SOURCE_DIR}/*.cpp"
 add_executable(Nyx ${SOURCES})
 
 include_directories("${PROJECT_SOURCE_DIR}")
-include_directories("${PROJECT_SOURCE_DIR}/Helpers")
-include_directories("${PROJECT_SOURCE_DIR}/Helpers/stb")
+
 include_directories("${PROJECT_SOURCE_DIR}/Helios")
 include_directories("${PROJECT_SOURCE_DIR}/Helios/Camera")
 include_directories("${PROJECT_SOURCE_DIR}/Helios/Debugging")
 include_directories("${PROJECT_SOURCE_DIR}/Helios/OpenGL-Wrappers")
+
+include_directories("${PROJECT_SOURCE_DIR}/Helpers")
+include_directories("${PROJECT_SOURCE_DIR}/Helpers/stb")
+
 include_directories("${PROJECT_SOURCE_DIR}/Nyx")
 include_directories("${PROJECT_SOURCE_DIR}/Nyx/Nyx-Window")
+include_directories("${PROJECT_SOURCE_DIR}/Nyx/Nyx-Input")
 
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)

@@ -55,7 +55,7 @@ class Texture
         int height;         //!< height of the texture
 
     public:
-    
+
 //──── Constructors and Destructors ──────────────────────────────────────────────────────
 
         /**
@@ -226,7 +226,7 @@ class Shading_Program
 
     private:
         GLuint programID;           //!< OpenGL generated identifier
-        long texture_bitmask;//!< Bitmask tracking active texture units
+        long texture_bitmask = 0;   //!< Bitmask tracking active texture units
 
     public:
 
@@ -312,13 +312,6 @@ class Shading_Program
         */
         GLenum inline getFreeTextureUnit()
         {
-            int texture_units;
-            glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &texture_units);
-            if(texture_bitmask >= texture_units)
-            {
-                std::cerr << "All texture units are in use!" << std::endl;
-                exit(EXIT_FAILURE);
-            }
             int texture_unit = __builtin_ctz(~texture_bitmask);
 
             ulong bit = 0x1;

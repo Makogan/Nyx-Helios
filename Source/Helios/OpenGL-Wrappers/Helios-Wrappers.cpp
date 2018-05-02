@@ -152,6 +152,7 @@ Texture::Texture(string file_path, GLuint t_target)
     //Set the color format
     color_format = numComponents == 3 ? GL_RGB : GL_RGBA;
 
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexImage2D(target, 0, color_format, width, height, 0,
         color_format, GL_UNSIGNED_BYTE, data);
     //Set the texture parameters of the image
@@ -183,10 +184,10 @@ void Texture::load_to_program(Shading_Program *program, string uniform)
     GLenum texture_unit = program->getFreeTextureUnit();
     //Use program
     program->use();
-    //Bind texture to the texture unit to it's appropriate target
+    //Bind texture to the texture unit to its appropriate target
     glActiveTexture(texture_unit);
 	glBindTexture(target, textureID);
-    //Get the uniform location in the program and attach the texture unit 
+    //Get the uniform location in the program and attach the texture unit
     GLuint location = program->get_uniform_location(uniform);
     glUniform1i(location,texture_unit - GL_TEXTURE0);
 }
@@ -233,6 +234,7 @@ Mesh::Mesh()
     vector<GLuint> distance = {0,0,0}; //Distance between elements of the buffer
     set_attribute_locations(locs, sizes, normalize, distance);
 }
+//Construct a mesh from a file
 Mesh::Mesh(string file_path)
 {
     //Load an object from a wavefront file
@@ -404,7 +406,8 @@ Shader::Shader(string file_path)
     const GLchar* s_ptr = source.c_str();//get raw c string (char array)
 
     shaderID = glCreateShader(type);//create shader on GPU
-    glObjectLabel(GL_SHADER, shaderID, file_path.length(), file_path.c_str());//Name the object
+    //Name the object
+    glObjectLabel(GL_SHADER, shaderID, file_path.length(), file_path.c_str());
 	glShaderSource(shaderID, 1, &s_ptr, NULL);//set shader program source
 
 	glCompileShader(shaderID);
@@ -606,7 +609,7 @@ Shading_Program::Shading_Program(string vs, string tcs, string tes,
         if(shaders[c_shader]!=NULL)
         {
             shaders[c_shader]->detachFrom(programID);
-            shaders[c_shader]->~Shader();
+            delete(shaders[c_shader]);
         }
     }
 }

@@ -47,7 +47,7 @@ void render()
 
 int main()
 {
-    Nyx::NyxInit(NYX_TOLERANCE_HIGH);
+   /* Nyx::NyxInit(NYX_TOLERANCE_HIGH);
     Nyx::Nyx_Window w = Nyx::Nyx_Window("Example", render, NULL, true);
 
     w.set_callback(key_callback);
@@ -62,9 +62,9 @@ int main()
 
     v->use();
 
-    mesh = new Helios::Mesh("Assets/untitled.obj");
-    Helios::Texture t = Helios::Texture("Assets/example2.jpeg", GL_TEXTURE_2D);
+    mesh = new Helios::Mesh("Assets/dragon.obj");
+    Helios::Texture t = Helios::Texture("Assets/tiled_texture.png", GL_TEXTURE_2D);
     t.load_to_program(v, "testing");
-    w.start_loop();
+    w.start_loop();*/
 }
 //########################################################################################

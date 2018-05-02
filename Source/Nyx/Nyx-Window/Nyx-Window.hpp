@@ -21,6 +21,8 @@
 #include "Nyx/System-Libraries.hpp"
 
 enum Nyx_Enum{NYX_KEY_CALLBACK, NYX_CURSOR_POS_CALLBACK, NYX_CURSOR_BUT_CALLBACK};
+
+namespace Nyx{
 //########################################################################################
 
 //========================================================================================
@@ -28,10 +30,6 @@ enum Nyx_Enum{NYX_KEY_CALLBACK, NYX_CURSOR_POS_CALLBACK, NYX_CURSOR_BUT_CALLBACK
  * Nyx Window Class                                                                     *
  *                                                                                      */
 //========================================================================================
-
-
-namespace Nyx{
-
 /**
  * @ingroup Nyx
  * 
@@ -60,19 +58,19 @@ class Nyx_Window
         GLFWwindow* getWindowPtr(){return window;}
         /**
          * @brief Construct a new Nyx_Window object.
-         * 
+         *
         */
-        Nyx_Window();                              
+        Nyx_Window();
 
         /**
          * @brief Construct a new Nyx_Window object
-         * 
+         *
          * @param name The display name of the Nyx_Window. Shown at the top when running
          * program
          * @param f Function pointer to a method that will be run on every frame on the
-         * current window. This is the main render method that should call all relevant 
+         * current window. This is the main render method that should call all relevant
          * drawing functions
-         * @param window A window pointer with which to share context information 
+         * @param window A window pointer with which to share context information
          * @param visible Whether the window should be visible or not (Invisible 
          * windows are useful for multi threading)
         */
@@ -81,25 +79,25 @@ class Nyx_Window
 //──── Class methods ─────────────────────────────────────────────────────────────────────
 
         /**
-         * @brief Start the infinite render loop of the current Nyx_Window. This method 
+         * @brief Start the infinite render loop of the current Nyx_Window. This method
          * implicitly calls the function defined during construction on each frame
-         * 
+         *
         */
-        void start_loop();     
+        void start_loop();
 
         /**
          * @name Callback Setters
          * @brief Set a glfw callback function identified by signature
-         * 
+         *
          * Each of these functions will call the appropriate glfw set callback function.
          * The functions are identified by signature according to glfw's documentation:
          * http://www.glfw.org/documentation.html
-         * 
+         *
          * @param callback_f the function pointer to be associated to a glfw callback
         */
         ///@{
         //* error callback */
-        void set_callback(void (*callback_f)(int, const char*)); 
+        void set_callback(void (*callback_f)(int, const char*));
         //* cursor position callback */
         void set_callback(void (*callback_f)(GLFWwindow*, double, double));
         //* cursor button callback */
@@ -112,7 +110,7 @@ class Nyx_Window
 
         /**
          * @brief Disable cursors in the window
-         * 
+         *
         */
         void inline disable_cursor()
         {

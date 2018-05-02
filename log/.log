@@ -1,5 +1,5 @@
 ================================================================================
-Nyx started: Tue May  1 23:13:34 2018
+Nyx started: Wed May  2 01:40:39 2018
 On OS: Linux
 Library Linking and initialization checks for Nyx:
 
@@ -21,8 +21,3 @@ Initializing window: Example
 	GLEW initialized---------------------------------[✓]
 		GLEW version: 2.1.0                           |
 --------------------------------------------------------------------------------
---------------------------------------------------------------------------------
-Error:
-	Shader not created due to error with file: Helios-Shaders/Basic-Vertex.glsl
---------------------------------------------------------------------------------
-Program ended: Tue May  1 23:13:34 2018
