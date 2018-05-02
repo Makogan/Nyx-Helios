@@ -28,7 +28,7 @@ void main()
     gl_Position = proj_m*pos;
 
     v_pos = vec3(model_m*pos);
-    v_norm = vec3(view_m*model_m*vec4(normal,1.0));
+    v_norm = vec3(model_m*vec4(normal,1.0));
     v_uv = uv;
 
 }

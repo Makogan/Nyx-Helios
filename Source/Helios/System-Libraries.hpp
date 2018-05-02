@@ -48,5 +48,4 @@
 
 //External helpers
 #include "log.hpp"
-#include "wavefront-loader.hpp"
 //########################################################################################

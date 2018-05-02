@@ -24,6 +24,27 @@ namespace Helios{
  *                                                                                      */
 //========================================================================================
 
+//Texture enumerator
+std::string textureTargetEnumToString(GLenum text)
+{
+    switch(text)
+    {
+        case GL_TEXTURE_1D:                     return "GL_TEXTURE_1D";
+        case GL_TEXTURE_2D:                     return "GL_TEXTURE_2D";
+        case GL_TEXTURE_3D:                     return "GL_TEXTURE_3D";
+
+        case GL_TEXTURE_1D_ARRAY:               return "GL_TEXTURE_1D_ARRAY";
+        case GL_TEXTURE_2D_ARRAY:               return "GL_TEXTURE_2D_ARRAY";
+
+        case GL_TEXTURE_RECTANGLE:              return "GL_TEXTURE_RECTANGLE";
+        case GL_TEXTURE_CUBE_MAP:               return "GL_TEXTURE_CUBE_MAP";
+        case GL_TEXTURE_CUBE_MAP_ARRAY:         return "GL_TEXTURE_CUBE_MAP_ARRAY";
+        case GL_TEXTURE_BUFFER:                 return "GL_TEXTURE_BUFFER";
+        case GL_TEXTURE_2D_MULTISAMPLE:         return "GL_TEXTURE_2D_MULTISAMPLE";
+        case GL_TEXTURE_2D_MULTISAMPLE_ARRAY:   return "GL_TEXTURE_2D_MULTISAMPLE_ARRAY";
+    }
+}
+
 //Error enumerator
 std::string errEnumToString(GLenum err)
 {

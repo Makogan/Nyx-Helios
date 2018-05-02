@@ -54,6 +54,7 @@ void errorCallback( GLenum source, GLenum type, GLuint id, GLenum severity,
  * @param e The enumerator
  * @return std::string The representing string
 */
+std::string textureTargetEnumToString(GLenum e);
 std::string errEnumToString(GLenum e);
 std::string errSourceToString(GLenum e);
 std::string errTypeToString(GLenum e);

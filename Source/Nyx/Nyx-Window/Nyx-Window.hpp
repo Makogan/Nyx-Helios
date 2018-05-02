@@ -47,9 +47,16 @@ class Nyx_Window
         void (*window_function)();  //!< Subroutine to be called during Nyx_Window loop
         std::string window_name;    //!< Name of the window (displayed at the top)
 
+    public:
+
 //──── Constructors and Destructors ──────────────────────────────────────────────────────
 
-    public:
+        //TODO: impelment a destructor
+        /**
+         * @brief Get the GLFWwindow pointer of the current window
+         *
+         * @return GLFWwindow* The pointer to the GLFW window
+        */
         GLFWwindow* getWindowPtr(){return window;}
         /**
          * @brief Construct a new Nyx_Window object.
@@ -69,8 +76,7 @@ class Nyx_Window
          * @param visible Whether the window should be visible or not (Invisible 
          * windows are useful for multi threading)
         */
-        Nyx_Window(std::string name, void(*f)(), GLFWwindow* window, bool visible); 
-        //~Nyx_Window();
+        Nyx_Window(std::string name, void(*f)(), GLFWwindow* window, bool visible);
 
 //──── Class methods ─────────────────────────────────────────────────────────────────────
 
@@ -103,6 +109,15 @@ class Nyx_Window
         //* window size callback */
         void set_callback(void (*callback_f)(GLFWwindow*, int, int));
         ///@}
+
+        /**
+         * @brief Disable cursors in the window
+         * 
+        */
+        void inline disable_cursor()
+        {
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        }
 };
 }//Nyx namespace closing bracket
 //########################################################################################

@@ -15,6 +15,7 @@
 //========================================================================================
 
 #include "Helios/System-Libraries.hpp"
+#include "Helios-Wrappers.hpp"
 
 //########################################################################################
 
@@ -70,7 +71,7 @@ class Camera
         void rotateH(float angle);
         void rotateV(float angle);
         //TODO: this may need to return an error checking code
-        void load();
+        void load_to_program(Shading_Program *program);
 };
 
 }//Close Helios namespace

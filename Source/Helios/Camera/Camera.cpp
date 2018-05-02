@@ -16,7 +16,6 @@
 //========================================================================================
 
 #include "Camera.hpp"
-#include "Uniform-Access.hpp"
 
 using namespace glm;
 //########################################################################################
@@ -54,10 +53,11 @@ void Camera::rotateV(float angle)
     forward = rotate(forward, angle, side);
 }
 
-void Camera::load()
+void Camera::load_to_program(Shading_Program *program)
 {
-    load_uniform(getViewMatrix(), "view_m");
-    load_uniform(getPerspectiveMatrix(), "proj_m");
+    program->load_uniform(getViewMatrix(), "view_m");
+    program->load_uniform(getPerspectiveMatrix(), "proj_m");
+    program->load_uniform(position, "camera_position");
 }
 //########################################################################################
 

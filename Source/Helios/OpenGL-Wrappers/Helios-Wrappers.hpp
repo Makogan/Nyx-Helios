@@ -19,17 +19,71 @@
 #include "Debugging.hpp"
 //########################################################################################
 
+namespace Helios{
+//========================================================================================
+/*                                                                                      *
+ *                                 Forward Declarations                                 *
+ *                                                                                      */
+//========================================================================================
+
+class Texture;
+class Mesh;
+class Shading_Program;
+class Shader;
+
+//########################################################################################
+
 //========================================================================================
 /*                                                                                      *
  *                                  Class Declarations                                  *
  *                                                                                      */
 //========================================================================================
-namespace Helios{
+/**
+ * @brief Wrapper class for textures
+ *
+*/
+class Texture
+{
+//──── Private Members ───────────────────────────────────────────────────────────────────
 
-//TODO: implement the rest of the Mesh class
+    private:
+        GLuint textureID;   //!< OpenGL name of the texture
+        GLuint target;      //!< Target of the texture (e.g GL_TEXTURE_2D)
+
+        int color_format;   //!< The color format of the texture (e.g GL_RGBA)
+        int width;          //!< width of the texture
+        int height;         //!< height of the texture
+
+    public:
+    
+//──── Constructors and Destructors ──────────────────────────────────────────────────────
+
+        /**
+         * @brief Construct a new Texture object
+         *
+         * @param file_path Path to the texture file
+         * @param target The OpenGL target texture
+        */
+        Texture(std::string file_path, GLuint target);
+        /**
+         * @brief Destroy the Texture object
+         *
+        */
+        ~Texture();
+
+//──── Other Methods ─────────────────────────────────────────────────────────────────────
+
+        /**
+         * @brief Load this textures information into a uniform in the selected program
+         *
+         * @param program The program into which the texture will be loaded
+         * @param uniform The label of the uniform in the shader
+        */
+        void load_to_program(Shading_Program *program, std::string uniform);
+};
 /**
  * @brief Class to wrap a generic 3D mesh
- * 
+ *
 */
 class Mesh
 {
@@ -69,7 +123,18 @@ class Mesh
 
 //──── GPU related methods ───────────────────────────────────────────────────────────────
 
+        /**
+         * @brief Draw the mesh
+         *
+        */
         void draw();
+
+        /**
+         * @brief Load mesh information from a wavefront file
+         *
+         * @param file_path Path to the .obj file
+        */
+        void load_from_obj(std::string file_path);
 };
 
 /**
@@ -160,7 +225,8 @@ class Shading_Program
 //──── Private Members ───────────────────────────────────────────────────────────────────
 
     private:
-        GLuint programID; //!< OpenGL generated identifier
+        GLuint programID;           //!< OpenGL generated identifier
+        long texture_bitmask;//!< Bitmask tracking active texture units
 
     public:
 
@@ -213,13 +279,122 @@ class Shading_Program
          *
         */
         void inline use(){glUseProgram(programID);}
-
         /**
          * @brief Set the program's OpenGL label
-         * 
-         * @param name 
+         *
+         * @param name The new label of the program
         */
-        void set_program_name(std::string name);
+        void inline set_program_name(std::string name)
+        {glObjectLabel(GL_PROGRAM, programID, -1, name.c_str());}
+        /**
+         * @brief Bind a texture to a uniform of the current program
+         *
+         * @param texture 
+         * @param uniform_label 
+        */
+        void bind_texture(Texture texture, std::string uniform_label);
+
+//──── Uniform Functions ─────────────────────────────────────────────────────────────────
+
+
+        /**
+         * @brief Get the location of the uniform labeled <name> in the current program
+         *
+         * @param name The string representing the uniform to be found
+         * @return GLint The location of the uniform in the current shading program
+        */
+        GLint get_uniform_location(std::string name);
+
+        /**
+         * @brief Get the lowest free texture unit on the current program
+         *
+         * @return GLenum the the texture unit, equal to (GL_TEXTURE0 + offset)
+        */
+        GLenum inline getFreeTextureUnit()
+        {
+            int texture_units;
+            glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &texture_units);
+            if(texture_bitmask >= texture_units)
+            {
+                std::cerr << "All texture units are in use!" << std::endl;
+                exit(EXIT_FAILURE);
+            }
+            int texture_unit = __builtin_ctz(~texture_bitmask);
+
+            ulong bit = 0x1;
+            texture_bitmask |= (bit<<texture_unit);
+
+            return GL_TEXTURE0+texture_unit;
+        }
+        /**
+         * @brief Free a Texture Unit in the current program
+         *
+         * @param unit The texture unit to be free
+        */
+        void inline freeTextureUnit(int unit)
+        {
+            ulong bit = 0x1;
+            texture_bitmask &= ~(bit<<unit);
+            glBindTextureUnit(unit, 0);
+        }
+        /**
+         * @brief Free all texture units in the current program
+         * 
+        */
+        void inline freeAllTextureUnits()
+        {
+            texture_bitmask = 0;
+            int texture_units;
+            glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &texture_units);
+            for(int unit=0; unit<texture_units; unit++)
+                glBindTextureUnit(GL_TEXTURE0+unit, 0);
+        }
+        /**
+         * @name Uniform Loading Functions
+         *
+         * @brief Each of the following functions loads the values described in the first
+         * parameter into the uniform labeled "name"
+         *
+         * @param type the structure containing the info to load
+         * @param name string describing the name of the uniform as it appears on the shaders
+        */
+        ///@{
+        void inline load_uniform(glm::mat4 matrix, std::string name)
+        {
+            GLint loc = get_uniform_location(name);
+            glUniformMatrix4fv(loc, 1, GL_FALSE, value_ptr(matrix));
+        }
+
+        void inline load_uniform(glm::vec4 vector, std::string name)
+        {
+            GLint loc = get_uniform_location(name);
+            glUniform4fv(loc, 1, (GLfloat*)&(vector));
+        }
+
+        void inline load_uniform(glm::vec3 vector, std::string name)
+        {
+            GLint loc = get_uniform_location(name);
+            glUniform3fv(loc, 1, (GLfloat*)&(vector));
+        }
+
+        void inline load_uniform(float num, std::string name)
+        {
+            GLint loc = get_uniform_location(name);
+            glUniform1f(loc, num);
+        }
+
+        void inline load_uniform(double num, std::string name)
+        {
+            GLint loc = get_uniform_location(name);
+            glUniform1f(loc, num);
+        }
+
+        void inline load_uniform(int num, std::string name)
+        {
+            GLint loc = get_uniform_location(name);
+            glUniform1i(loc, num);
+        }
+        ///@}
 };
 }//Close helios namespace
 //########################################################################################

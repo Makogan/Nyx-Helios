@@ -1,6 +1,8 @@
 Nyx:
     Implement:
         ☐ Implement the resize callback function
+        ☐ Implement Nyx window destructor
+        ☐ Implement a Nyx Keyboard
     Research:
         ☐ Consider using QT to create a basic profiler
 Helios:

@@ -1,0 +1,28 @@
+================================================================================
+Nyx started: Tue May  1 23:13:34 2018
+On OS: Linux
+Library Linking and initialization checks for Nyx:
+
+	GLFW intialized----------------------------------[✓]
+		GLFW Version: 3.2.1                           |
+	GLEW initialized---------------------------------[✓]
+		GLEW version: 2.1.0                           |
+	Modern OpenGL------------------------------------[✓]
+		Version: 4.6.0                                |
+		From Vendor: NVIDIA Corporation               |
+		Render Device: GeForce GTX 1070/PCIe/SSE2     |
+		Driver Version: 4.6.0 NVIDIA 390.48           |
+	Nyx initialized----------------------------------[✓]
+		Nyx version: 0.0.1                            |
+================================================================================
+
+--------------------------------------------------------------------------------
+Initializing window: Example
+	GLEW initialized---------------------------------[✓]
+		GLEW version: 2.1.0                           |
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Error:
+	Shader not created due to error with file: Helios-Shaders/Basic-Vertex.glsl
+--------------------------------------------------------------------------------
+Program ended: Tue May  1 23:13:34 2018

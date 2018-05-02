@@ -118,8 +118,8 @@ Nyx_Window::Nyx_Window(string name, void(*w_func)(), GLFWwindow* s_window, bool 
     glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); //Set the window as resizable
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);//Use GLFW defaults
 	glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);//Make the window decorated
-	if(visible)
-	    glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE);//Make the window visible
+    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+	glfwWindowHint(GLFW_VISIBLE, visible? GLFW_TRUE: GLFW_FALSE);//Make the window visible
 
     //Get the primary monitor of the current system
 	const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
@@ -143,6 +143,10 @@ Nyx_Window::Nyx_Window(string name, void(*w_func)(), GLFWwindow* s_window, bool 
     window_name = name;
 
     init_glew();//Initialize GLEW for current window
+
+    //clear window
+    glClearColor(0,0,0,0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     //Set default GLFW callback functions for basic input
     set_callback(error_callback);
