@@ -15,8 +15,11 @@
  *                                                                                      */
 //========================================================================================
 
+#pragma message("Including Window.")
 
-#pragma once
+#ifndef NXYWINDOW_H
+#define NXYWINDOW_H
+
 
 #include "Nyx/System-Libraries.hpp"
 
@@ -117,5 +120,9 @@ class Nyx_Window
             glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
         }
 };
-}//Nyx namespace closing bracket
+};//Nyx namespace closing bracket
 //########################################################################################
+
+#else
+#pragma message("Window included again.")
+#endif

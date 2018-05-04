@@ -15,8 +15,9 @@
  *                                   Include Libraries                                  *
  *                                                                                      */
 //========================================================================================
-
-#pragma once
+#pragma message("Including Syslib.")
+#ifndef SYSTEMLIBS_HPP_INCLUDED
+#define SYSTEMLIBS_HPP_INCLUDED
 
 //OpenGL Libraries
 #ifndef DOXYGEN_OMIT
@@ -39,3 +40,6 @@
 //External helpers
 #include "log.hpp"
 //########################################################################################
+#else
+#pragma message("SYSLIB included again.")
+#endif

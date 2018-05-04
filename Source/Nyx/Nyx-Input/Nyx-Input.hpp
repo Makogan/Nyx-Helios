@@ -13,7 +13,10 @@
  *                                     Include Files                                    *
  *                                                                                      */
 //========================================================================================
-#pragma once
+#pragma message("Including Input.")
+#ifndef NXYINPUT_H
+#define NXYINPUT_H
+
 
 #include "Nyx-Window.hpp"
 namespace Nyx{
@@ -51,5 +54,8 @@ class Nyx_Keyboard
         void updateAllKeys();*/
 
 };
-}//Close Nyx namespace
+};//Close Nyx namespace
 //########################################################################################
+#else
+#pragma message("Input included again.")
+#endif

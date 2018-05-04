@@ -14,7 +14,9 @@
  *                                     Include Files                                    *
  *                                                                                      */
 //========================================================================================
-#pragma once
+#pragma message("Including Log.")
+#ifndef LOG_HPP_INCLUDED
+#define LOG_HPP_INCLUDED
 
 //IO libraries
 #include <iostream>
@@ -109,3 +111,7 @@ void record_log_time(std::string message);
 std::string wrap_text(std::string text, int maximum);
 }//Closing bracket of Log namespace
 //########################################################################################
+
+#else
+#pragma message("Log included again.")
+#endif

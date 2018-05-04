@@ -13,7 +13,10 @@
  *                                   Include Libraries                                  *
  *                                                                                      */
 //========================================================================================
-#pragma once
+#pragma message("Including Nyx.")
+#ifndef NYX_HPP_INCLUDE
+#define NYX_HPP_INCLUDE
+// #pragma once
 
 //OpenGL Libraries
 #ifndef DOXYGEN_OMIT
@@ -32,12 +35,14 @@
 #include <chrono>
 #include <ctime>
 
-//External helpers
-#include "log.hpp"
 
 //Nyx headers
-#include "Nyx-Window.hpp"
+#include "Nyx-Window.hpp" 
 #include "Nyx-Input.hpp"
+
+//External helpers
+#include "log.hpp" //Log depends on the above
+
 //########################################################################################
 
 //========================================================================================
@@ -93,3 +98,6 @@ bool NyxInit(int level);
 }//close namespace
 //########################################################################################
 
+#else
+#pragma message("Nyx included again.")
+#endif
