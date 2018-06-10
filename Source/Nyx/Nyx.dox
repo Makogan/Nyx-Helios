@@ -1,0 +1,7 @@
+/**
+ * @defgroup Nyx The Nyx library classes and functions. 
+ * 
+ * Nyx is the "front end" of Nyx & Helios. It provides tools to handle window 
+ * creation and GUI elements. 
+ * 
+*/

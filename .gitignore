@@ -1,0 +1,16 @@
+# Ignore directories #
+
+.vscode
+.git
+
+build
+html
+latex
+
+# Ignore  CMake files and Make #
+
+Makefile
+
+*CMake*
+
+!CMakeLists.txt
